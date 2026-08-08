@@ -1,34 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Disha — Marketing-Website
 
-## Getting Started
+Landingpage und Rechtsseiten zur App **Disha**, dem KI-gestützten
+Budget-Essensplaner. Vollständig statisch, ohne Tracking, ohne Cookies, ohne
+externe Fonts.
 
-First, run the development server:
+Spezifikation: [Website-Briefing.md](Website-Briefing.md)
+**Vor dem Launch lesen:** [OFFENE-PUNKTE.md](OFFENE-PUNKTE.md)
+
+---
+
+## Loslegen
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000 → leitet auf /de
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+npm run build   # alle Routen werden statisch vorgerendert
+npm start
+npx eslint .    # muss ohne Befund durchlaufen
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Routen
 
-## Learn More
+| Pfad | Inhalt |
+| --- | --- |
+| `/` | Redirect auf `/de` |
+| `/de` | Landingpage |
+| `/de/datenschutz` | Datenschutzerklärung ⚠️ Rechtsprüfung offen |
+| `/de/impressum` | Impressum ⚠️ Pflichtangaben fehlen |
+| `/de/agb` | Nutzungsbedingungen ⚠️ Rechtsprüfung offen |
+| `/sitemap.xml`, `/robots.txt` | generiert |
+| `/de/opengraph-image` | OG-Bild, zur Build-Zeit erzeugt |
 
-To learn more about Next.js, take a look at the following resources:
+Zusätzlich leiten `/disha/datenschutz`, `/datenschutz` und `/privacy` auf
+`/de/datenschutz` weiter — siehe Punkt 3 in `OFFENE-PUNKTE.md`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Aufbau
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  config/site.ts        Domain, Store-Links, Preise, Kontakt — einziger Ort
+                        für alles, was sich beim Launch ändern kann
+  content/
+    de.ts               komplette deutsche Copy (Quelle der Wahrheit)
+    food.ts             kuratierte Gerichtsfotos, Slug ↔ Bildunterschrift
+  i18n/locales.ts       Locale-Liste, lokalisierte Slugs, Pfad-Helfer
+  lib/seo.ts            canonical, hreflang, Open Graph, JSON-LD
+  components/
+    app-ui/             HTML-Nachbau der echten App-Screens im CSS-iPhone
+    motion/             Reveal, AnimatedHeadline, FoodMarquee, CursorGlow
+    sections/           Hero, HowItWorks, Features, Showcase, Privacy,
+                        Pricing, Faq, FinalCta
+    legal/              Rahmen und TODO-Bausteine der Rechtsseiten
+  app/[locale]/         Routen. Das Root-Layout liegt absichtlich hier und
+                        nicht in app/, damit <html lang> den echten
+                        Sprachcode der Route trägt.
+public/
+  brand/  food/  badges/
+```
 
-## Deploy on Vercel
+## Design-System
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Farben, Radien und das 8pt-Spacing stehen als Tailwind-v4-Tokens in
+[src/app/globals.css](src/app/globals.css) und sind 1:1 aus
+`DishaApp/src/constants/colors.ts` übernommen.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Deep-Green `#1A3A2A` ist der einzige Markenakzent.** Kein zweiter Akzent,
+  keine bunten Feature-Icons, keine mehrfarbigen Badges. Alles andere ist
+  Schwarz/Weiß/Grau plus die natürlichen Farben der Essensfotografie.
+- **Keine Web-Fonts.** Der Display-Stack beginnt mit `ui-rounded`, was auf
+  Apple-Geräten SF Pro Rounded liefert und die runde Anmutung der Wortmarke
+  trifft — ohne ein einziges geladenes Byte.
+- **Bewegung ist Deko, nie Voraussetzung.** Bei `prefers-reduced-motion` und
+  ohne JavaScript ist der komplette Inhalt sofort sichtbar (Override im
+  `<noscript>` des Root-Layouts).
+
+## Assets
+
+Die Bilder liegen im App-Repo (`DishaApp`) und wurden nach `public/` kopiert;
+Dateinamen wurden dabei auf URL-sichere Slugs gebracht (keine Leerzeichen,
+keine Umlaute). Die Zuordnung steht in
+[src/content/food.ts](src/content/food.ts).
+
+Die Store-Badges in `public/badges/` stammen unverändert von Apple Marketing
+Tools und dem Google-Play-Badge-Generator in deutscher Fassung.
+
+## Zwei Fallen, die hier schon zugeschlagen haben
+
+- **`overflow: hidden` killt `position: sticky`.** Der `body` und die
+  Showcase-Section nutzen deshalb `overflow-x: clip` — das beschneidet die
+  überstehenden Verläufe genauso, erzeugt aber keinen Scroll-Container.
+- **`scale(calc(100cqw / 393))` ist ungültig.** Länge geteilt durch Zahl bleibt
+  eine Länge, `scale()` braucht eine Zahl — der Browser verwirft die ganze
+  Transformation stillschweigend. Der Nachbau skaliert daher mit
+  `scale(tan(atan2(100cqw, 393px)))`; das ergibt eine echte Zahl. Siehe
+  [PhoneFrame.tsx](src/components/app-ui/PhoneFrame.tsx).
+
+## Deployment
+
+Ausgelegt auf Vercel. Alle Seiten sind statisch (SSG), es gibt keine
+Server-only-Features außer `redirects()` und `headers()` in
+[next.config.ts](next.config.ts).
+
+Für einen reinen Static Export (`output: "export"`) müssten Redirects und
+Header stattdessen beim Hoster konfiguriert werden, und die
+Bildoptimierung von `next/image` entfiele.

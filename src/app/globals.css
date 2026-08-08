@@ -1,1 +1,380 @@
 @import "tailwindcss";
+
+/* ==========================================================================
+   Design-System
+   Farbwerte 1:1 aus der App (DishaApp/src/constants/colors.ts).
+   Deep-Green ist der EINZIGE Markenakzent — kein zweiter Akzent, keine
+   bunten Feature-Icons. Alles sonst Schwarz/Weiß/Grau plus die natürlichen
+   Farben der Essens-Fotografie.
+   ========================================================================== */
+
+@theme {
+  /* --- Marke ------------------------------------------------------------ */
+  --color-accent: #1a3a2a; /* Colors.light.accent */
+  --color-accent-soft: #2e5e4a; /* Colors.dark.accent */
+  --color-mint: #a9c7b2; /* Colors.dark.welcomeIconTint */
+  --color-sage: #d9e3cf; /* Colors.light.welcomeIconLeafBg */
+  --color-cream: #f7f4ed; /* Colors.light.welcomeBackground */
+
+  /* --- Dunkle Flächen ---------------------------------------------------
+     Die App nutzt im Dark-Mode reines #000. Für die Website liegt darüber
+     ein Deep-Green-Scrim, damit große Flächen nicht flach wirken. */
+  --color-night: #060b08;
+  --color-night-soft: #0d1712;
+
+  /* --- Kontrast-Untergrenzen (WCAG AA, 4.5:1) --------------------------
+     Auf --color-night ist `text-white/55` (6.3:1) die dunkelste zulässige
+     Textfarbe — /45 liegt bei 4.5:1 auf der Kante, /40 (3.8:1) und /35
+     (3.1:1) fallen durch. Auf Weiß ist `--color-ink-soft` (5.2:1) die
+     Untergrenze; `--color-ink-faint` erreicht nur 3.3:1 und ist deshalb dem
+     App-UI-Nachbau vorbehalten, wo es den Token der App spiegelt.
+     Geprüft mit einem Skript über alle tatsächlich genutzten Paare. */
+
+  /* --- Text / Flächen (Light) ------------------------------------------ */
+  --color-ink: #000000; /* textPrimary */
+  --color-ink-soft: #6c6c70; /* textSecondary */
+  --color-ink-faint: #8e8e93; /* dark.textSecondary */
+  --color-surface: #ffffff; /* backgroundPrimary */
+  --color-surface-2: #f2f2f7; /* backgroundSecondary */
+  --color-surface-3: #e5e5ea; /* backgroundTertiary */
+  --color-hairline: #c6c6c8; /* separator */
+
+  /* --- Typografie -------------------------------------------------------
+     Keine Web-Fonts. `ui-rounded` liefert auf Apple-Geräten SF Pro Rounded
+     und trifft damit die runde Anmutung der Wortmarke, ohne dass ein Byte
+     Font geladen wird. Anderswo fällt es auf Segoe UI / Roboto zurück. */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  --font-display:
+    ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+
+  /* --- Spacing: 8pt-Grid wie in der App -------------------------------- */
+  --spacing-section: 6rem; /* 96px */
+  --spacing-section-sm: 3rem; /* 48px */
+
+  /* --- Radien: iOS-Anmutung -------------------------------------------- */
+  --radius-card: 1.25rem;
+  --radius-tile: 0.875rem;
+  --radius-pill: 999px;
+
+  /* --- Motion ----------------------------------------------------------- */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --animate-marquee: marquee 60s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 60s linear infinite;
+  --animate-float: float 9s var(--ease-in-out-soft) infinite;
+  --animate-float-slow: float 14s var(--ease-in-out-soft) infinite;
+  --animate-drift: drift 22s var(--ease-in-out-soft) infinite;
+  --animate-shimmer: shimmer 2.6s linear infinite;
+  --animate-halo: halo 11s var(--ease-in-out-soft) infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-reverse {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(18px, -22px, 0) rotate(3deg);
+  }
+  66% {
+    transform: translate3d(-14px, 12px, 0) rotate(-2deg);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes halo {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.12);
+  }
+}
+
+/* ==========================================================================
+   Basis
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Sticky-Header überlappt Anchor-Ziele nicht */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-night);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* Body 17px laut Design-System, Zeilenhöhe 1.5+ */
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* `clip` statt `hidden`: beides verhindert horizontales Scrollen durch die
+       überstehenden Deep-Green-Verläufe, aber `hidden` macht den Body zum
+       Scroll-Container und setzt damit jedes `position: sticky` darin außer
+       Kraft. */
+    overflow-x: clip;
+  }
+
+  /* Headlines ruhig — Semibold, nicht fett-marketing-schreiend */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Sichtbarer, markenkonformer Fokus-Ring statt Browser-Default */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-soft);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-accent) 22%, transparent);
+  }
+
+  /* Inline-Icons zeichnen mit `stroke`, nicht mit `fill` */
+  svg {
+    fill: none;
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+/* Feines Filmkorn — nimmt großen dunklen Flächen das Digitale. */
+@utility grain {
+  position: relative;
+  isolation: isolate;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Kanten eines horizontalen Scrollers weich auslaufen lassen. */
+@utility fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+/* Display-Headline auf Dunkel: Weiß mit sanftem Mint-Auslauf. */
+@utility text-gradient {
+  background-image: linear-gradient(
+    170deg,
+    #ffffff 0%,
+    #ffffff 58%,
+    var(--color-mint) 100%
+  );
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* iOS-Glas: für Header und Overlay-Chips. */
+@utility glass {
+  background-color: color-mix(in srgb, var(--color-night) 72%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+@utility glass-light {
+  background-color: color-mix(in srgb, white 70%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+/* ==========================================================================
+   Reveal-Choreografie
+   Elemente starten versetzt und werden von einem IntersectionObserver
+   (components/motion/Reveal.tsx) über `data-revealed` freigegeben.
+   ========================================================================== */
+
+@layer components {
+  [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+    transition:
+      opacity 0.9s var(--ease-out-soft),
+      transform 1s var(--ease-out-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  [data-reveal="scale"] {
+    transform: translate3d(0, 40px, 0) scale(0.965);
+  }
+
+  [data-reveal="left"] {
+    transform: translate3d(-32px, 0, 0);
+  }
+
+  [data-reveal="right"] {
+    transform: translate3d(32px, 0, 0);
+  }
+
+  [data-reveal][data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Fließtext der Rechtsseiten. Nur Basis-Elemente, damit die Seiten ohne
+     zusätzliche Klassen im JSX lesbar sind. */
+  .legal-prose a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(
+      in srgb,
+      var(--color-accent) 30%,
+      transparent
+    );
+    text-underline-offset: 4px;
+    transition: text-decoration-color 0.25s;
+    /* Lange URLs dürfen den Container nicht sprengen */
+    overflow-wrap: anywhere;
+  }
+
+  .legal-prose a:hover {
+    text-decoration-color: var(--color-accent);
+  }
+
+  .legal-prose ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .legal-prose ul > li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .legal-prose ul > li::before {
+    content: "";
+    position: absolute;
+    left: 0.25rem;
+    top: 0.7em;
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 999px;
+    background-color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .legal-prose strong {
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  /* Wort-für-Wort-Einlauf der Hero-Headline */
+  .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translate3d(0, 0.5em, 0) rotate(1.5deg);
+    transition:
+      opacity 0.85s var(--ease-out-soft),
+      transform 0.95s var(--ease-out-soft);
+    transition-delay: var(--word-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  .word[data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Barrierefreiheit: Bewegung respektieren
+   Bei `prefers-reduced-motion` bleibt die Seite vollständig lesbar — alle
+   Inhalte sind sofort sichtbar, Endlos-Animationen stehen still.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal],
+  .word {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

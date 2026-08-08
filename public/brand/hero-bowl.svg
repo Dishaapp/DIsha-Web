@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 440">
+  <!-- Teller -->
+  <circle cx="220" cy="220" r="216" fill="#EDE9DF"/>
+  <circle cx="220" cy="220" r="196" fill="#FAF8F2"/>
+  <!-- Bowl-Inneres -->
+  <circle cx="220" cy="220" r="164" fill="#F1E9D8"/>
+  <!-- Blattsalat / Spinat (links) -->
+  <g fill="#2E5E4A">
+    <ellipse cx="128" cy="170" rx="46" ry="30" transform="rotate(-28 128 170)"/>
+    <ellipse cx="110" cy="232" rx="44" ry="28" transform="rotate(14 110 232)"/>
+    <ellipse cx="158" cy="120" rx="38" ry="24" transform="rotate(-52 158 120)"/>
+    <ellipse cx="92" cy="190" rx="34" ry="22" transform="rotate(-8 92 190)"/>
+  </g>
+  <g fill="#4C7A5E">
+    <ellipse cx="150" cy="200" rx="40" ry="25" transform="rotate(-18 150 200)"/>
+    <ellipse cx="124" cy="270" rx="36" ry="23" transform="rotate(30 124 270)"/>
+    <ellipse cx="190" cy="138" rx="32" ry="20" transform="rotate(-40 190 138)"/>
+  </g>
+  <g fill="#6FA37F">
+    <ellipse cx="170" cy="168" rx="26" ry="16" transform="rotate(-30 170 168)"/>
+    <ellipse cx="142" cy="240" rx="24" ry="15" transform="rotate(12 142 240)"/>
+    <ellipse cx="108" cy="146" rx="20" ry="13" transform="rotate(-60 108 146)"/>
+  </g>
+  <!-- Cherry-Tomaten (oben rechts) -->
+  <g>
+    <circle cx="268" cy="118" r="24" fill="#D95B2F"/>
+    <circle cx="261" cy="111" r="7" fill="#E8804F"/>
+    <circle cx="312" cy="146" r="21" fill="#C94F28"/>
+    <circle cx="306" cy="140" r="6" fill="#E8804F"/>
+    <circle cx="284" cy="172" r="18" fill="#E06A36"/>
+    <circle cx="279" cy="167" r="5" fill="#EF9260"/>
+  </g>
+  <!-- Hähnchen-Scheiben (rechts unten) -->
+  <g>
+    <ellipse cx="304" cy="256" rx="52" ry="30" transform="rotate(-24 304 256)" fill="#D9A05B"/>
+    <ellipse cx="304" cy="256" rx="42" ry="22" transform="rotate(-24 304 256)" fill="#E7B97E"/>
+    <ellipse cx="276" cy="306" rx="48" ry="27" transform="rotate(-12 276 306)" fill="#C98A48"/>
+    <ellipse cx="276" cy="306" rx="38" ry="20" transform="rotate(-12 276 306)" fill="#DEAC6C"/>
+    <ellipse cx="338" cy="206" rx="40" ry="22" transform="rotate(-36 338 206)" fill="#CE9450"/>
+    <ellipse cx="338" cy="206" rx="31" ry="15" transform="rotate(-36 338 206)" fill="#E2B375"/>
+  </g>
+  <!-- Mais / Körner (unten) -->
+  <g fill="#E8C46B">
+    <circle cx="186" cy="318" r="9"/>
+    <circle cx="208" cy="332" r="8"/>
+    <circle cx="230" cy="320" r="9"/>
+    <circle cx="200" cy="306" r="7"/>
+    <circle cx="222" cy="342" r="7"/>
+    <circle cx="246" cy="336" r="8"/>
+    <circle cx="170" cy="336" r="7"/>
+    <circle cx="190" cy="346" r="6"/>
+  </g>
+  <!-- Walnüsse / Topping (oben mitte) -->
+  <g fill="#A4763F">
+    <ellipse cx="216" cy="106" rx="14" ry="10" transform="rotate(20 216 106)"/>
+    <ellipse cx="240" cy="92" rx="11" ry="8" transform="rotate(-16 240 92)"/>
+    <ellipse cx="196" cy="88" rx="10" ry="7" transform="rotate(40 196 88)"/>
+  </g>
+  <!-- Sesam-Akzente -->
+  <g fill="#FAF8F2" opacity="0.9">
+    <ellipse cx="152" cy="186" rx="4" ry="2.4" transform="rotate(-30 152 186)"/>
+    <ellipse cx="128" cy="252" rx="4" ry="2.4" transform="rotate(20 128 252)"/>
+    <ellipse cx="298" cy="250" rx="4" ry="2.4" transform="rotate(-20 298 250)"/>
+    <ellipse cx="272" cy="300" rx="4" ry="2.4" transform="rotate(10 272 300)"/>
+  </g>
+</svg>
