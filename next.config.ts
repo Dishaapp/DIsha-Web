@@ -23,10 +23,8 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
-      // Einstieg: Root auf die Primärsprache. Sobald weitere Locales in
-      // src/i18n/locales.ts aktiviert sind, kann das durch eine
-      // Accept-Language-Aushandlung in proxy.ts ersetzt werden.
-      { source: "/", destination: "/de", permanent: false },
+      // Root-Einstieg `/` wird nicht hier, sondern in proxy.ts behandelt —
+      // dort entscheidet der Accept-Language-Header zwischen /de und /en.
 
       // Der im App Store hinterlegte Datenschutz-Link zeigt auf
       // kitchen-heroes.net/disha/datenschutz. Falls dieser Pfad je auf diese
