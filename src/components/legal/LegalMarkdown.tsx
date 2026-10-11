@@ -8,7 +8,7 @@ import { headingId, type LegalDocument } from "@/lib/legal-markdown";
  * Rechtstext aus `legal/*.md` als Seite.
  *
  * Gleiche Typografie wie `LegalPage`, aber ohne dunklen Disha-Kopf und ohne
- * „Zurück zur Startseite“ — die Kalia-Seiten haben keine eigene Startseite.
+ * „Zurück zur Startseite“ — bei Kalia führt die Wortmarke im Kopf zurück.
  */
 export function LegalMarkdown({ doc }: { doc: LegalDocument }) {
   return (
