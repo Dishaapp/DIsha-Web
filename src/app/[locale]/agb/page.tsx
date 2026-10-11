@@ -5,6 +5,7 @@ import {
   LegalPage,
   LegalSection,
 } from "@/components/legal/LegalPage";
+import { kalia } from "@/config/kalia";
 import { site } from "@/config/site";
 import { pathFor } from "@/i18n/locales";
 import { alternatesFor, socialFor } from "@/lib/seo";
@@ -54,7 +55,11 @@ export default function TermsPage() {
       intro="Diese Bedingungen gelten für die Nutzung dieser Website und ergänzen die Bedingungen des jeweiligen App-Stores für die App Disha."
       lastUpdated={LAST_UPDATED}
     >
-
+      {/* /terms leitet hierher, und die Kalia-App verlinkt bisher auf /terms. */}
+      <p className="rounded-card bg-surface-2 px-5 py-4 text-[15px] leading-relaxed text-ink-soft">
+        Du suchst die Nutzungsbedingungen der Kalia-App? Du findest sie{" "}
+        <Link href={kalia.paths.terms}>hier</Link> (auf Englisch).
+      </p>
 
       <LegalSection heading="1. Geltungsbereich" id="geltungsbereich">
         <p>

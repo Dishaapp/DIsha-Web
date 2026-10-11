@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { LegalPage, LegalSection } from "@/components/legal/LegalPage";
+import { kalia } from "@/config/kalia";
 import { site } from "@/config/site";
 import { pathFor } from "@/i18n/locales";
 import { alternatesFor, socialFor } from "@/lib/seo";
@@ -47,6 +48,12 @@ export default function TermsPage() {
       intro="These terms apply to the use of this website and supplement the terms of the respective app store for the Disha app."
       lastUpdated={LAST_UPDATED}
     >
+      {/* Die Kalia-App verlinkt bisher auf /terms — siehe legal/terms-of-use.en.md. */}
+      <p className="rounded-card bg-surface-2 px-5 py-4 text-[15px] leading-relaxed text-ink-soft">
+        Looking for the terms of the Kalia app? You can find them{" "}
+        <Link href={kalia.paths.terms}>here</Link>.
+      </p>
+
       <LegalSection heading="1. Scope" id="scope">
         <p>
           These terms govern the use of the website at{" "}

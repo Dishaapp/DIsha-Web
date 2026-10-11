@@ -33,6 +33,13 @@ npx eslint .    # muss ohne Befund durchlaufen
 | `/de/agb` | Nutzungsbedingungen ⚠️ Rechtsprüfung offen |
 | `/sitemap.xml`, `/robots.txt` | generiert |
 | `/de/opengraph-image` | OG-Bild, zur Build-Zeit erzeugt |
+| `/Kalia/privacy` | Datenschutzerklärung der App Kalia (EN), aus `legal/privacy-policy.en.md` |
+| `/Kalia/terms` | Nutzungsbedingungen der App Kalia (EN), aus `legal/terms-of-use.en.md` |
+
+Die Kalia-Seiten haben ein eigenes Root-Layout (`src/app/Kalia/`) ohne
+Disha-Header und -Footer. Ihr Text kommt unverändert aus den Markdown-Dateien
+in `legal/` — Änderungen dort machen, dann neu bauen. Die App verlinkt genau
+diese Pfade (großes K).
 
 Zusätzlich leiten `/disha/datenschutz`, `/datenschutz` und `/privacy` auf
 `/de/datenschutz` weiter — siehe Punkt 3 in `OFFENE-PUNKTE.md`.
